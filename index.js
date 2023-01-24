@@ -35,35 +35,20 @@ app.get("/webhook", (req, res) => {
 })
 
 app.post("/webhook", (req, res) => {
-    let body = req.body
-    if (body.object) {
-        body.entry.forEach(entry => {
-            let phone_no_id = entry.changes[0].value.metadata.phone_number_id
-            let from = entry.changes[0].value.messages[0].from
-            let message_body = entry.changes[0].value.messages[0].text.body
+    let body_param = req.body
+    console.log(JSON.stringify(body_param))
+
+    // check if the webhook event is from a page subscription
+    if (body_param.object) {
+        body_param.entry.forEach(entry => {
+            console.log("entry : ")
             console.log(entry)
-            axios({
-                method: "post",
-                url: "https://graph.facebook.com/v15.0/"+ phone_no_id + "/messages",
-                data: {
-                    messaging_product: "whatsapp",
-                    to: from,
-                    text:{
-                        body: "Hello, I am a bot. You sent me this message: " 
-                    },
-                    language: "en_US"
-                },
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                    "authorization": "Bearer " + token
-                }
-            });
-            res.sendStatus(200)
-            console.log("Message sent")
         })
         res.status(200).send("EVENT_RECEIVED")
     }else{
         res.sendStatus(404)
+        console.log("Webhook not verified")
     }
+    
+   
 })
