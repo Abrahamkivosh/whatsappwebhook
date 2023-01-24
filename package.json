@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Whatsapp webhook learning",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Abrahamkivosh/whatsappwebhook.git"
@@ -15,5 +12,39 @@
   "bugs": {
     "url": "https://github.com/Abrahamkivosh/whatsappwebhook/issues"
   },
-  "homepage": "https://github.com/Abrahamkivosh/whatsappwebhook#readme"
+  "homepage": "https://github.com/Abrahamkivosh/whatsappwebhook#readme",
+  "dependencies": {
+    "axios": "^1.2.3",
+    "body-parser": "^1.20.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-x-hub": "^1.0.4"
+  },
+  "keywords": [
+    "whatsapp",
+    "webhook",
+    "nodejs",
+    "express",
+    "body-parser",
+    "express-x-hub",
+    "nodejs"
+  ],
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "node_modules/"
+    ]
+  },
+  "private": true,
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "readmeFilename": "README.md",
+  "readme": "# whatsappwebhook \r Whatsapp webhook learning\r  \r  ## Installation\r  \r  ```\r  npm install\r  ```\r  \r  ## Usage\r  \r  ```\r  npm run dev\r  ```\r  \r  ## License\r  \r  [ISC](https://opensource.org/licenses/ISC)"
 }
