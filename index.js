@@ -44,16 +44,19 @@ app.post("/webhook", (req, res) => {
             console.log(entry)
             axios({
                 method: "post",
-                url: "https://graph.facebook.com/v13.6/me/messages"+ phone_no_id + "/messages?access_token"+ token,
+                url: "https://graph.facebook.com/v15.0/"+ phone_no_id + "/messages",
                 data: {
                     messaging_product: "whatsapp",
                     to: from,
                     text:{
                         body: "Hello, I am a bot. You sent me this message: " 
-                    }
+                    },
+                    language: "en_US"
                 },
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "authorization": "Bearer " + token
                 }
             });
             res.sendStatus(200)
