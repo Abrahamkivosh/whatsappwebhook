@@ -42,6 +42,11 @@ app.post("/webhook", (req, res) => {
             let changes = entry.changes
             changes.forEach((change) => {
                 console.log(JSON.stringify(change,null,2))
+                let message = change.value.message.text.body
+                let message_id = change.value.message.id
+                let message_from = change.value.message.from
+                let Phone_number_ID = change.value.metadata.phone_number_id
+                sendFeedBackMessage(message_id, message, Phone_number_ID, message_from)
              
             })
 
@@ -55,7 +60,7 @@ app.post("/webhook", (req, res) => {
 })
 
 
-function sendFeedBackMessage(message_id, Phone_number_ID, message_from) {
+function sendFeedBackMessage(message_id,message, Phone_number_ID, message_from) {
     axios.post(`https://graph.facebook.com/v15.0/${Phone_number_ID}/messages`, {
         "messaging_product": "whatsapp",
         "to": message_from,
