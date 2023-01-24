@@ -1,0 +1,19 @@
+{
+  "name": "webhookwhatsapp",
+  "version": "1.0.0",
+  "description": "Whatsapp webhook learning",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Abrahamkivosh/whatsappwebhook.git"
+  },
+  "author": "Abrahamkivosh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Abrahamkivosh/whatsappwebhook/issues"
+  },
+  "homepage": "https://github.com/Abrahamkivosh/whatsappwebhook#readme"
+}
