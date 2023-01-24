@@ -42,17 +42,7 @@ app.post("/webhook", (req, res) => {
             let changes = entry.changes
             changes.forEach((change) => {
                 console.log(JSON.stringify(change,null,2))
-                let value = change.value
-
-                let message_id = value.message_id
-                let message_from = value.from
-                let message = value.message.text
-                let Phone_number_ID = value.to
-                console.log(message_id)
-                console.log(message_from)
-                console.log(message)
-                console.log(Phone_number_ID)
-                sendFeedBackMessage(message_id, Phone_number_ID, message_from)
+             
             })
 
            
