@@ -40,14 +40,19 @@ app.post("/webhook", (req, res) => {
     console.log("====================================");
     console.log(body_param.object);
     console.log("====================================");
-    console.log(body_param.entry[0].messaging[0].sender.id);
-    console.log("====================================");
-    console.log(body_param.entry[0].messaging[0].message.text);
-    console.log("====================================");
-    console.log(res);
-    console.log("====================================");
-    
-    if (body_param.object === "page") {
+  
+    if (body_param.object === "whatsapp_business_account") {
+        let entry = body_param.entry
+        entry.forEach((entry) => {
+            console.log("====================================");
+            console.log(JSON.stringify(entry,null,2));
+            console.log("====================================");
+            let changes = entry.changes
+            changes.forEach((change) => {
+            })
+        })
+       
     }
+    res.status(200).send("EVENT_RECEIVED")
    
 })
