@@ -36,42 +36,26 @@ app.get("/webhook", (req, res) => {
 
 app.post("/webhook", (req, res) => {
     let body_param=req.body;
-    // console.log(JSON.stringify(body_param,null,2));
-    // console.log("====================================");
-    // console.log(body_param.object);
-    // console.log("====================================");
-  
     if (body_param.object === "whatsapp_business_account") {
         let entry = body_param.entry
         entry.forEach((entry) => {
-            let app_id = entry.app_id
-            let Phone_number_ID = entry.changes.value.metadata.phone_number_id
-            let Phone_number = entry.changes.value.metadata.phone_number
+            let changes = entry.changes
+            changes.forEach((change) => {
+                console.log(JSON.stringify(change,null,2))
+                let value = change.value
 
-            let message = entry.changes.value.messages[0].text.body
-            let message_id = entry.changes.value.messages[0].id
-            let message_type = entry.changes.value.messages[0].type
-            let message_timestamp = entry.changes.value.messages[0].timestamp
-            let message_from = entry.changes.value.messages[0].from
-
-            console.log("====================================");
-
-            axios.post(`https://graph.facebook.com/v15.0/${Phone_number_ID}/messages`, {
-                "messaging_product": "whatsapp",
-                "to": message_from,
-                "language": "en",
-                "text": "Hello, I am a bot"+message + " " + message_id + " From "+ message_from 
-                }, {
-                headers: {
-                'Content-Type': 'application/json',
-                "Authorization": `Bearer ${token}`
-                }
-           
-            }).then((response) => {
-                console.log(response.data)
-            }).catch((error) => {
-                console.error(error)
+                let message_id = value.message_id
+                let message_from = value.from
+                let message = value.message.text
+                let Phone_number_ID = value.to
+                console.log(message_id)
+                console.log(message_from)
+                console.log(message)
+                console.log(Phone_number_ID)
+                sendFeedBackMessage(message_id, Phone_number_ID, message_from)
             })
+
+           
 
         })
        
@@ -79,3 +63,23 @@ app.post("/webhook", (req, res) => {
     res.status(200).send("EVENT_RECEIVED")
    
 })
+
+
+function sendFeedBackMessage(message_id, Phone_number_ID, message_from) {
+    axios.post(`https://graph.facebook.com/v15.0/${Phone_number_ID}/messages`, {
+        "messaging_product": "whatsapp",
+        "to": message_from,
+        "language": "en",
+        "text": "Hello, I am a bot"+message + " " + message_id + " From "+ message_from 
+        }, {
+        headers: {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${token}`
+        }
+   
+    }).then((response) => {
+        console.log(response.data)
+    }).catch((error) => {
+        console.error(error)
+    })
+}
