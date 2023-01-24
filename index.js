@@ -6,6 +6,7 @@ const port = process.env.PORT || 80
 const token = process.env.TOKEN
 const my_token = process.env.MY_TOKEN
 
+
 // get the server url access from the environment variables
 
 const server_url = process.env.SERVER_URL
@@ -35,12 +36,12 @@ app.get("/webhook", (req, res) => {
 
 app.post("/webhook", (req, res) => {
     let body = req.body
-    if (body.object === "page") {
+    if (body.object) {
         body.entry.forEach(entry => {
             let phone_no_id = entry.changes[0].value.metadata.phone_number_id
             let from = entry.changes[0].value.messages[0].from
             let message_body = entry.changes[0].value.messages[0].text.body
-
+            console.log(entry)
             axios({
                 method: "post",
                 url: "https://graph.facebook.com/v13.6/me/messages"+ phone_no_id + "/messages?access_token"+ token,
