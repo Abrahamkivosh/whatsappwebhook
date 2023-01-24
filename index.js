@@ -66,13 +66,20 @@ app.post("/webhook",(req,res)=>{ //i want some
                        "Content-Type":"application/json"
                    }
 
-               });
+app.post("/webhook", (req, res) => {
+    let body_param = req.body
+    console.log(JSON.stringify(body_param))
 
-               res.sendStatus(200);
-            }else{
-                res.sendStatus(404);
-            }
-
+    // check if the webhook event is from a page subscription
+    if (body_param.object) {
+        body_param.entry.forEach(entry => {
+            console.log("entry : ")
+            console.log(entry)
+        })
+        res.status(200).send("EVENT_RECEIVED")
+    }else{
+        res.sendStatus(404)
+        console.log("Webhook not verified")
     }
 
 });
