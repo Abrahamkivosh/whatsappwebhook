@@ -36,7 +36,7 @@ app.get("/webhook", (req, res) => {
 
 app.post("/webhook", (req, res) => {
     let body = req.body
-    if (body.object === "page") {
+    if (body.object) {
         body.entry.forEach(entry => {
             let phone_no_id = entry.changes[0].value.metadata.phone_number_id
             let from = entry.changes[0].value.messages[0].from
