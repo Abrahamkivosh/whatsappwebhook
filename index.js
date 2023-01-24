@@ -6,8 +6,11 @@ const port = process.env.PORT || 3000
 const token = process.env.TOKEN
 const my_token = process.env.MY_TOKEN
 
+// get the server url access from the environment variables
 
-const  localhost = "http://localhost:" + port
+const server_url = process.env.SERVER_URL
+
+const  localhost = server_url +":" + port
 app.use(body_parser.json())
 
 app.listen(port, () => console.log(`Listening on port ${port} \r \n${localhost}`))
