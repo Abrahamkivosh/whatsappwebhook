@@ -6,7 +6,7 @@ require('dotenv').config();
 const app=express().use(body_parser.json());
 
 const token=process.env.TOKEN;
-const mytoken=process.env.MY_TOKEN;//prasath_token
+const mytoken=process.env.MY_TOKEN;
 
 app.listen(process.env.PORT,()=>{
     console.log("webhook is listening");
@@ -15,14 +15,14 @@ app.listen(process.env.PORT,()=>{
 //to verify the callback url from dashboard side - cloud api side
 app.get("/webhook",(req,res)=>{
    let mode=req.query["hub.mode"];
-   let challange=req.query["hub.challenge"];
+   let challenge=req.query["hub.challenge"];
    let token=req.query["hub.verify_token"];
 
 
     if(mode && token){
 
         if(mode==="subscribe" && token===mytoken){
-            res.status(200).send(challange);
+            res.status(200).send(challenge);
         }else{
             res.status(403);
         }
@@ -52,34 +52,11 @@ app.post("/webhook",(req,res)=>{ //i want some
                console.log("from "+from);
                console.log("boady param "+msg_body);
 
-               axios({
-                   method:"POST",
-                   url:"https://graph.facebook.com/v13.0/"+phon_no_id+"/messages?access_token="+token,
-                   data:{
-                       messaging_product:"whatsapp",
-                       to:from,
-                       text:{
-                           body:"Hi.. I'm Prasath, your message is "+msg_body
-                       }
-                   },
-                   headers:{
-                       "Content-Type":"application/json"
-                   }
+               res.sendStatus(200);
+            }else{
+                res.sendStatus(404);
+            }
 
-app.post("/webhook", (req, res) => {
-    let body_param = req.body
-    console.log(JSON.stringify(body_param))
-
-    // check if the webhook event is from a page subscription
-    if (body_param.object) {
-        body_param.entry.forEach(entry => {
-            console.log("entry : ")
-            console.log(entry)
-        })
-        res.status(200).send("EVENT_RECEIVED")
-    }else{
-        res.sendStatus(404)
-        console.log("Webhook not verified")
     }
 
 });
