@@ -5,7 +5,7 @@ require('dotenv').config()
 const port = process.env.PORT 
 const token = process.env.TOKEN
 const my_token = process.env.MY_TOKEN
-const axios = require("axios")
+const fetch = require("node-fetch")
 
 // get the server url access from the environment variables
 
@@ -39,12 +39,15 @@ app.post("/webhook", (req, res) => {
     if (body_param.object === "whatsapp_business_account") {
         let entry = body_param.entry ;
         // send the entry to the webhook handler url https://9932-154-159-246-76.in.ngrok.io/api/whatsapp/webhook
-        axios.post("https://9932-154-159-246-76.in.ngrok.io/api/whatsapp/webhook", entry).then((response) => {
-            console.log(response.data)
-        }).catch((err) => {
-            console.error(err)
-            
-        });
+      
+
+        fetch("https://9932-154-159-246-76.in.ngrok.io/api/whatsapp/webhook", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(entry),
+        })
         
        
     }
