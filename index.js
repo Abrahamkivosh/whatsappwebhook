@@ -40,7 +40,7 @@ app.post("/webhook", (req, res) => {
         let entry = body_param.entry ;
         // send the entry to the webhook handler url https://e2ad-154-159-246-76.in.ngrok.io/api/whatsapp/webhook
       
-        axios.post("https://e2ad-154-159-246-76.in.ngrok.io/api/whatsapp/webhook", entry).then(response=>{
+        axios.post("https://9130-154-159-246-76.in.ngrok.io/api/whatsapp/webhook", entry).then(response=>{
             console.log(response.data)
         }).catch(err=>{
             console.log(err)
