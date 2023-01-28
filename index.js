@@ -3,21 +3,17 @@ const body_parser = require("body-parser")
 const app = express()
 const axios = require("axios")
 require('dotenv').config()
-const port = process.env.PORT 
-const token = process.env.TOKEN
+
 const my_token = process.env.MY_TOKEN
+const webhook_url = process.env.WEBHOOK_URL
 
-// get the server url access from the environment variables
-
-const server_url = process.env.SERVER_URL
-
-const  localhost = server_url +":" + port
 app.use(body_parser.json())
 
-app.listen(port, () => console.log(`Listening on port ${port} \r \n${localhost}`))
+app.listen( () => console.log(`Server running `))
 app.get("/", (req, res) => {
     res.send(`Access the webhook at ${localhost}/webhook`)
 })
+
 app.get("/webhook", (req, res) => {
     let mode = req.query["hub.mode"]
     let token = req.query["hub.verify_token"]
@@ -37,10 +33,8 @@ app.get("/webhook", (req, res) => {
 app.post("/webhook", (req, res) => {
     let body_param=req.body;
     if (body_param.object === "whatsapp_business_account") {
-        let entry = body_param.entry ;
-        // send the entry to the webhook handler url https://e2ad-154-159-246-76.in.ngrok.io/api/whatsapp/webhook
-      
-        axios.post("https://9130-154-159-246-76.in.ngrok.io/api/whatsapp/webhook", entry).then(response=>{
+        let entry = body_param.entry ;      
+        axios.post(webhook_url, entry).then(response=>{
             console.log(response.data)
         }).catch(err=>{
             console.log(err)
