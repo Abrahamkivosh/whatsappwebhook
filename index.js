@@ -55,12 +55,12 @@ app.post("/webhook", (req, res) => {
                 'Accept': 'application/json'
             }
         });
-        res.sendStatus(200)
+        res.status(200).send("EVENT_RECEIVED")
 
     }else{
         console.log("Not a whatsapp_business_account")
         console.log(body_param.object)
-        res.sendStatus(200)
+        res.status(403).send("Forbidden")
     }
     res.status(200).send("EVENT_RECEIVED")
    
