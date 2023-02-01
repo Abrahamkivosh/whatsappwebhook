@@ -9,22 +9,31 @@ const webhook_url = process.env.WEBHOOK_URL
 
 app.use(body_parser.json())
 
-app.listen( () => console.log(`Server running `))
+app.listen(process.env.PORT, ()=> {
+    console.log(`Server is running on port ${process.env.PORT}`)
+}
+)
+
 app.get("/", (req, res) => {
-    res.send(`Access the webhook at ${localhost}/webhook`)
+
+    res.status(200).send("Application to receive webhook from WhatsApp Business API")
 })
 
+// Webhook verification
 app.get("/webhook", (req, res) => {
-    let mode = req.query["hub.mode"]
-    let token = req.query["hub.verify_token"]
-    let challenge = req.query["hub.challenge"]
+  
+    let mode=req.query["hub.mode"];
+    let challenge=req.query["hub.challenge"];
+    let token=req.query["hub.verify_token"];
+
     if (mode && token) {
         if (mode === "subscribe" && token === my_token) {
             console.log("Webhook verified")
             res.status(200).send(challenge)
         }else{
-            res.sendStatus(403)
             console.log("Webhook not verified")
+            res.status(403).send("Forbidden")
+            
         }
 
     }
@@ -32,13 +41,26 @@ app.get("/webhook", (req, res) => {
 
 app.post("/webhook", (req, res) => {
     let body_param=req.body;
+
     if (body_param.object === "whatsapp_business_account") {
-        let entry = body_param.entry ;      
-        axios.post(webhook_url, entry).then(response=>{
-            console.log(response.data)
-        }).catch(err=>{
-            console.log(err)
-        })
+        let entry = body_param.entry ;   
+        console.log("Webhook url : " + webhook_url);   
+       
+        axios({
+            method: 'post',
+            url: webhook_url,
+            data: entry,
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        res.sendStatus(200)
+
+    }else{
+        console.log("Not a whatsapp_business_account")
+        console.log(body_param.object)
+        res.sendStatus(200)
     }
     res.status(200).send("EVENT_RECEIVED")
    
